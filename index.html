@@ -29,12 +29,16 @@
       <h2 id="current-player"></h2>
       <h3>Round Score: <span id="round-score">0</span></h3>
       <div class="keypad">
-        <button onclick="roll(1)">1</button>
-        <button onclick="roll(2)">2</button>
-        <button onclick="roll(3)">3</button>
-        <button onclick="roll(4)">4</button>
-        <button onclick="roll(5)">5</button>
-        <button onclick="roll(6)">6</button>
+        <div class="keypad-row">
+          <button onclick="roll(1)">1</button>
+          <button onclick="roll(2)">2</button>
+          <button onclick="roll(3)">3</button>
+        </div>
+        <div class="keypad-row">
+          <button onclick="roll(4)">4</button>
+          <button onclick="roll(5)">5</button>
+          <button onclick="roll(6)">6</button>
+        </div>
         <button class="stop" onclick="stopRound()">Stop</button>
       </div>
     </div>
