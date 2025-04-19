@@ -1,4 +1,3 @@
-
 let players = [];
 let scores = [];
 let currentPlayer = 0;
@@ -49,6 +48,11 @@ function roll(number) {
   } else {
     roundScore += number;
     document.getElementById("round-score").innerText = roundScore;
+    const projectedScore = scores[currentPlayer] + roundScore;
+    if (projectedScore >= 100) {
+      scores[currentPlayer] = projectedScore;
+      endGame();
+    }
   }
 }
 
@@ -87,11 +91,26 @@ function endGame() {
   document.getElementById("winner-name").innerText = players[currentPlayer] + " Wins!";
   const finalList = document.getElementById("final-scores");
   finalList.innerHTML = "";
-  scores.forEach((score, i) => {
-    const li = document.createElement("li");
-    li.textContent = players[i] + ": " + score;
-    finalList.appendChild(li);
+
+  const table = document.createElement("table");
+  const header = document.createElement("tr");
+  players.forEach(player => {
+    const th = document.createElement("th");
+    th.textContent = player;
+    header.appendChild(th);
   });
+  table.appendChild(header);
+
+  const scoreRow = document.createElement("tr");
+  scores.forEach(score => {
+    const td = document.createElement("td");
+    td.textContent = score;
+    scoreRow.appendChild(td);
+  });
+  table.appendChild(scoreRow);
+
+  finalList.appendChild(table);
+
   gameHistory.unshift({ winner: players[currentPlayer], scores: [...scores], names: [...players] });
   localStorage.setItem("history", JSON.stringify(gameHistory.slice(0, 5)));
 }
@@ -107,7 +126,11 @@ function showHistory() {
   historyList.innerHTML = "";
   gameHistory.forEach(game => {
     const li = document.createElement("li");
-    li.textContent = game.winner + " won with scores: " + game.scores.join(", ");
+    let scoreDetails = "";
+    game.names.forEach((name, idx) => {
+      scoreDetails += `${name}: ${game.scores[idx]} `;
+    });
+    li.textContent = `${game.winner} won | ${scoreDetails}`;
     historyList.appendChild(li);
   });
 }
